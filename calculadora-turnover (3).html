@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calculadora de Turnover | iFood Benefícios</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Albert Sans', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      color: #1a1a1a;
+      background: #FDFDFD;
+    }
+
+    /* ── HEADER ── */
+    .header {
+      background: #FDFDFD;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      border-bottom: 1px solid #f0e0ea;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .header-logo {
+      height: 36px;
+      width: auto;
+      display: flex;
+      align-items: center;
+    }
+    .header-logo svg {
+      height: 36px;
+      width: auto;
+    }
+    .btn-primary {
+      background: #69022D;
+      color: #FDFDFD;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 20px;
+      font-family: 'Albert Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: background 0.2s ease;
+    }
+    .btn-primary:hover { background: #B5004C; }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(135deg, #69022D 0%, #B5004C 100%);
+      color: #FDFDFD;
+      padding: 80px 24px 64px;
+      text-align: center;
+    }
+    .hero-inner { max-width: 760px; margin: 0 auto; }
+    .hero h1 {
+      font-size: clamp(32px, 5vw, 48px);
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 20px;
+    }
+    .hero-sub {
+      font-size: 16px;
+      font-weight: 400;
+      opacity: 0.9;
+      max-width: 640px;
+      margin: 0 auto 32px;
+    }
+    .btn-acqua {
+      background: #91F5CD;
+      color: #69022D;
+      border: none;
+      border-radius: 8px;
+      padding: 14px 32px;
+      font-family: 'Albert Sans', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: background 0.2s ease;
+    }
+    .btn-acqua:hover { background: #7DE3BA; }
+    .hero-credibility {
+      margin-top: 20px;
+      font-size: 13px;
+      opacity: 0.75;
+      font-weight: 500;
+    }
+
+    /* ── PROPOSTA DE VALOR ── */
+    .value-section {
+      background: #FFE6F2;
+      padding: 72px 24px;
+      text-align: center;
+    }
+    .section-title {
+      font-size: clamp(24px, 3.5vw, 34px);
+      font-weight: 700;
+      color: #69022D;
+      margin-bottom: 48px;
+    }
+    .cards-row {
+      display: flex;
+      gap: 24px;
+      justify-content: center;
+      flex-wrap: wrap;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+    .value-card {
+      background: #FDFDFD;
+      border-radius: 16px;
+      padding: 36px 28px;
+      flex: 1;
+      min-width: 240px;
+      max-width: 300px;
+      box-shadow: 0 4px 20px rgba(105, 2, 45, 0.08);
+      text-align: center;
+    }
+    .value-card .icon { font-size: 36px; margin-bottom: 12px; }
+    .value-card h3 { font-size: 18px; font-weight: 700; color: #69022D; margin-bottom: 8px; }
+    .value-card p { font-size: 14px; color: #555; line-height: 1.5; }
+
+    /* ── SEÇÃO 1 — TAXA DE TURNOVER ── */
+    .calc-section-1 {
+      background: #FDFDFD;
+      padding: 72px 24px;
+    }
+    .calc-inner {
+      max-width: 760px;
+      margin: 0 auto;
+      background: #FDFDFD;
+      border: 1.5px solid #f0e0ea;
+      border-radius: 16px;
+      padding: 48px 40px;
+      box-shadow: 0 8px 32px rgba(105, 2, 45, 0.08);
+    }
+    .calc-inner .section-title { text-align: center; margin-bottom: 12px; }
+    .calc-subtitle {
+      text-align: center;
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 36px;
+      line-height: 1.6;
+    }
+    .calc-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+    @media (max-width: 600px) {
+      .calc-grid-2 { grid-template-columns: 1fr; }
+    }
+    .calc-group { display: flex; flex-direction: column; }
+    .calc-group label {
+      font-size: 13px;
+      font-weight: 600;
+      color: #444;
+      margin-bottom: 6px;
+    }
+    .calc-group input,
+    .calc-group select {
+      padding: 12px 14px;
+      border: 1.5px solid #e0c8d8;
+      border-radius: 8px;
+      font-family: 'Albert Sans', sans-serif;
+      font-size: 15px;
+      color: #222;
+      background: #fff;
+      transition: border-color 0.2s;
+      appearance: auto;
+    }
+    .calc-group input:focus,
+    .calc-group select:focus { outline: none; border-color: #69022D; }
+    .btn-calc {
+      width: 100%;
+      background: #69022D;
+      color: #FDFDFD;
+      border: none;
+      border-radius: 8px;
+      padding: 14px;
+      font-family: 'Albert Sans', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: background 0.2s;
+    }
+    .btn-calc:hover { background: #B5004C; }
+
+    /* ── RESULTADO SEÇÃO 1 ── */
+    .result-1 {
+      display: none;
+      margin-top: 36px;
+      animation: fadeIn 0.5s ease;
+    }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+    .result-rate-wrapper { text-align: center; margin-bottom: 20px; }
+    .result-rate-number {
+      font-size: clamp(52px, 10vw, 72px);
+      font-weight: 700;
+      color: #69022D;
+      line-height: 1;
+      margin-bottom: 12px;
+    }
+    .rate-badge {
+      display: inline-block;
+      padding: 8px 20px;
+      border-radius: 100px;
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .rate-badge.muito-baixo  { background: #469D81; color: #fff; }
+    .rate-badge.baixo        { background: #91F5CD; color: #69022D; }
+    .rate-badge.moderado     { background: #FFAED9; color: #69022D; }
+    .rate-badge.alto         { background: #DA0565; color: #fff; }
+    .rate-badge.muito-alto   { background: #69022D; color: #fff; }
+    .rate-text {
+      font-size: 14px;
+      color: #555;
+      max-width: 520px;
+      margin: 0 auto 12px;
+      line-height: 1.6;
+    }
+    .rate-projection {
+      font-size: 14px;
+      font-weight: 600;
+      color: #69022D;
+      margin-bottom: 4px;
+    }
+    .result-formula-small {
+      margin-top: 16px;
+      font-size: 11px;
+      color: #999;
+      text-align: center;
+      line-height: 1.6;
+      border-top: 1px solid #f0e0ea;
+      padding-top: 12px;
+    }
+
+    /* ── SEÇÃO 2 — CUSTO FINANCEIRO ── */
+    .calc-section-2 {
+      background: #FFE6F2;
+      padding: 72px 24px;
+    }
+    .calc-inner-2 {
+      max-width: 880px;
+      margin: 0 auto;
+      background: #FDFDFD;
+      border: 1.5px solid #f0c8db;
+      border-radius: 16px;
+      padding: 48px 40px;
+      box-shadow: 0 8px 32px rgba(105, 2, 45, 0.08);
+    }
+    .calc-inner-2 .section-title { text-align: center; margin-bottom: 12px; }
+    .level-cards-row {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+    }
+    .level-card {
+      flex: 1;
+      min-width: 220px;
+      background: #FDFDFD;
+      border: 1.5px solid #e0c8d8;
+      border-radius: 12px;
+      padding: 24px 20px;
+    }
+    .level-card-label {
+      font-size: 14px;
+      font-weight: 700;
+      color: #69022D;
+      margin-bottom: 4px;
+    }
+    .level-card-sublabel {
+      font-size: 11px;
+      color: #888;
+      margin-bottom: 16px;
+      line-height: 1.4;
+    }
+    .level-card .calc-group { margin-bottom: 12px; }
+    .level-card .calc-group:last-child { margin-bottom: 0; }
+
+    /* ── RESULTADO SEÇÃO 2 ── */
+    .result-2 {
+      display: none;
+      margin-top: 36px;
+      animation: fadeIn 0.5s ease;
+    }
+    .result-main-2 {
+      background: linear-gradient(135deg, #69022D 0%, #B5004C 100%);
+      color: #FDFDFD;
+      border-radius: 16px;
+      padding: 40px 28px;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+    .result-value-2 {
+      font-size: clamp(36px, 7vw, 56px);
+      font-weight: 700;
+      line-height: 1;
+      margin-bottom: 10px;
+    }
+    .result-label-2 { font-size: 14px; opacity: 0.9; }
+    .result-breakdown {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+    .result-breakdown-card {
+      flex: 1;
+      min-width: 160px;
+      background: #91F5CD;
+      color: #69022D;
+      border-radius: 12px;
+      padding: 18px 14px;
+      text-align: center;
+      font-weight: 600;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+    .result-breakdown-card span {
+      display: block;
+      font-size: 18px;
+      font-weight: 700;
+      margin-top: 6px;
+    }
+    .result-benchmark-2 {
+      background: #fff;
+      border: 1.5px solid #FFE6F2;
+      border-radius: 12px;
+      padding: 20px;
+      font-size: 14px;
+      color: #69022D;
+      font-weight: 500;
+      text-align: center;
+      margin-bottom: 0;
+    }
+
+    /* ── BLOCO COMERCIAL ── */
+    .commercial-section {
+      background: #69022D;
+      color: #FDFDFD;
+      padding: 80px 24px;
+      text-align: center;
+    }
+    .commercial-inner { max-width: 960px; margin: 0 auto; }
+    .commercial-section h2 {
+      font-size: clamp(26px, 4vw, 38px);
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+    .commercial-sub {
+      font-size: 16px;
+      opacity: 0.9;
+      max-width: 680px;
+      margin: 0 auto 48px;
+    }
+    .features-grid {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 48px;
+    }
+    .feature-card {
+      background: rgba(253, 253, 253, 0.12);
+      border: 1px solid rgba(253, 253, 253, 0.2);
+      border-radius: 12px;
+      padding: 24px 20px;
+      min-width: 180px;
+      flex: 1;
+      max-width: 220px;
+    }
+    .feature-card .feat-icon { font-size: 28px; margin-bottom: 10px; }
+    .feature-card p { font-size: 14px; font-weight: 600; line-height: 1.4; }
+
+    /* ── FOOTER ── */
+    .footer {
+      background: #19010D;
+      color: #FDFDFD;
+      padding: 56px 24px 32px;
+      text-align: center;
+    }
+    .footer-logo {
+      height: 48px;
+      margin-bottom: 28px;
+    }
+    .footer-logo svg { height: 48px; width: auto; }
+/* ── RESPONSIVE ── */
+    @media (max-width: 480px) {
+      .header { padding: 0 16px; }
+      .hero { padding: 56px 16px 48px; }
+      .calc-section-1, .calc-section-2 { padding: 48px 16px; }
+      .calc-inner, .calc-inner-2 { padding: 32px 20px; }
+      .commercial-section { padding: 56px 16px; }
+      .feature-card { max-width: 100%; }
+      .result-breakdown { flex-direction: column; }
+      .level-cards-row { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════ 1. HEADER ══════════════════════════════ -->
+<header class="header">
+  <div class="header-logo">
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 27.9.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 1920 1080" style="enable-background:new 0 0 1920 1080;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill-rule:evenodd;clip-rule:evenodd;fill:#69022D;}
+	.st1{fill:#69022D;}
+</style>
+<g>
+	<path class="st0" d="M139.2,434.1h40.1l6.5-32.7h-40.1L139.2,434.1z M112.9,565h40.4l22.4-113.3h-40.1L112.9,565z M209.6,596.9
+		h-40.4l24.4-122.4h-13.8l4.4-22.7h14.1c8-30.7,30.3-50.4,62.7-50.4c9.7,0,19.7,1.8,28.6,4.7l-4.7,23.9c-8.2-3.8-16.8-4.7-25.9-4.7
+		c-15,0-18.3,11.2-20,20.9l-0.9,5.3h14.1l-4.7,22.7H234L209.6,596.9z M296.7,567.7c47.7,0,80.7-44.2,80.7-80.5
+		c0-26.3-24.4-37.8-47.7-37.8c-52.1,0-80.7,47.8-80.7,80.5C249,555.9,273.8,567.7,296.7,567.7z M504.7,487.2
+		c0,36.3-33,80.5-80.7,80.5c-23,0-47.7-11.8-47.7-37.8c0-32.7,28.6-80.5,80.7-80.5C480.3,449.4,504.7,460.9,504.7,487.2z M569.8,565
+		h40.1l33.3-163.7h-40.4l-10.6,50.4c-5.3-1.2-10.6-1.8-16.2-1.8c-39.5,0-75.4,51.3-75.4,87.9c0,15,9.7,29.8,25.9,29.8
+		c23.3,0,39.2-11.5,46-22.4h2.4L569.8,565z M334.2,686.3c42.7,2.7,82.2-10.3,111.6-36l12.1,34.2l17.4-87.6l-81-0.3l27.4,20.9
+		c-24.2,23.9-68.6,40.7-104.9,36.6c-37.1-4.1-66.9-29.5-78.9-57.2h-2.7C242.8,640.3,280.3,683,334.2,686.3z"/>
+	<path class="st1" d="M755.2,563.1c-2.1,0-3.1-1-3.1-3.1V407.1c0-2.1,1-3.1,3.1-3.1h58.3c17.7,0,31.4,3.8,40.8,11.5
+		c9.5,7.6,14.2,18.1,14.2,31.3c0,7.5-2.1,14.1-6.4,19.8c-4.3,5.7-10.2,10.1-17.7,13.2c9.5,2.8,16.8,7.6,22,14.3
+		c5.2,6.8,7.8,14.8,7.8,24c0,9.1-2.3,17-6.9,23.8c-4.6,6.8-11.3,12-20.2,15.6c-8.7,3.7-19.3,5.5-31.7,5.5H755.2z M813.6,469
+		c7,0,12.4-1.8,16.4-5.5c4.1-3.7,6.2-8.2,6.2-13.7c0-5.6-1.9-10-5.8-13.2c-3.8-3.2-9.5-4.8-16.9-4.8h-29.7V469H813.6z M815.3,535.3
+		c8.4,0,14.8-1.7,19.1-5.1c4.4-3.5,6.7-8.3,6.7-14.3c0-6-2.2-10.7-6.7-14.1c-4.3-3.5-10.6-5.3-19.1-5.3h-31.5v38.8H815.3z"/>
+	<path class="st1" d="M945.5,565.9c-11.2,0-21.2-2.5-29.9-7.5c-8.7-5-15.6-12-20.6-20.9c-4.9-9.1-7.3-19.5-7.3-31.3
+		c0-11.2,2.3-21.2,6.9-30.2c4.7-9,11.3-16,19.7-21.1c8.6-5.1,18.3-7.7,29.3-7.7c10.4,0,19.4,2.3,27.1,7c7.8,4.7,13.9,11.2,18.2,19.4
+		c4.3,8.2,6.4,17.6,6.4,28.2c0,1.9-0.1,4.9-0.4,9c-0.2,1.9-1.3,2.9-3.3,2.9H918c1,8.4,4.1,14.9,9.3,19.6c5.2,4.7,11.6,7,19.3,7
+		c9.8,0,17.3-3.9,22.6-11.7c1.2-1.6,2.6-2,4.2-1.1l18.2,8.6c1.9,1,2.6,2.1,2,3.3c-4.1,8.1-10.3,14.5-18.4,19.4
+		C967.1,563.6,957.2,565.9,945.5,565.9z M966.2,492.8c-0.7-6.9-3.2-12.2-7.3-15.9c-4.1-3.8-9.3-5.7-15.5-5.7c-6.2,0-11.5,2-16,5.9
+		c-4.3,3.8-7.2,9-8.9,15.6H966.2z"/>
+	<path class="st1" d="M1045.8,560c0,2.1-1,3.1-3.1,3.1h-24c-2.1,0-3.1-1-3.1-3.1V453.2c0-2.1,1-3.1,3.1-3.1h22.8
+		c2.1,0,3.1,1,3.1,3.1v11.9c5.8-6.2,11.7-10.6,17.7-13.4c6.2-2.9,12.9-4.4,20-4.4c12.9,0,22.8,4.1,29.7,12.3
+		c7.1,8.1,10.6,19.2,10.6,33.3V560c0,2.1-1,3.1-3.1,3.1h-24c-2.1,0-3.1-1-3.1-3.1v-64.5c0-6.5-1.5-11.5-4.4-15.2
+		c-3-3.7-7.3-5.5-13.1-5.5c-4.9,0-9.8,1.3-14.9,4c-4.9,2.6-9.7,6.6-14.4,11.9V560z"/>
+	<path class="st1" d="M1200.9,565.9c-11.2,0-21.2-2.5-29.9-7.5c-8.7-5-15.6-12-20.6-20.9c-4.9-9.1-7.3-19.5-7.3-31.3
+		c0-11.2,2.3-21.2,6.9-30.2c4.7-9,11.3-16,19.7-21.1c8.6-5.1,18.3-7.7,29.3-7.7c10.4,0,19.4,2.3,27.1,7c7.8,4.7,13.9,11.2,18.2,19.4
+		c4.3,8.2,6.4,17.6,6.4,28.2c0,1.9-0.1,4.9-0.4,9c-0.1,1.9-1.3,2.9-3.3,2.9h-73.4c1,8.4,4.1,14.9,9.3,19.6c5.2,4.7,11.6,7,19.3,7
+		c9.8,0,17.3-3.9,22.6-11.7c1.2-1.6,2.6-2,4.2-1.1l18.2,8.6c1.9,1,2.6,2.1,2,3.3c-4.1,8.1-10.3,14.5-18.4,19.4
+		C1222.4,563.6,1212.5,565.9,1200.9,565.9z M1221.5,492.8c-0.7-6.9-3.2-12.2-7.3-15.9c-4.1-3.8-9.3-5.7-15.5-5.7s-11.5,2-16,5.9
+		c-4.3,3.8-7.2,9-8.9,15.6H1221.5z"/>
+	<path class="st1" d="M1311.5,560c0,2.1-1,3.1-3.1,3.1h-24c-2.1,0-3.1-1-3.1-3.1v-83h-19.7c-2.1,0-3.1-1-3.1-3.1v-20.7
+		c0-2.1,1-3.1,3.1-3.1h19.7v-3.3c0-12.9,4.5-23.7,13.5-32.4c9-8.8,23.6-14.5,43.7-17l3.5-0.2c0.9,0,1.5,0.2,1.8,0.7
+		c0.4,0.4,0.7,1.2,0.9,2.4l2,20.5v0.4c0,1.6-1,2.6-2.9,2.9c-8.9,1-15.7,2.6-20.4,4.6c-4.7,1.9-7.9,4.3-9.5,7.3
+		c-1.6,2.9-2.4,6.7-2.4,11.2v2.9h31.1c2.1,0,3.1,1,3.1,3.1v20.7c0,2.1-1,3.1-3.1,3.1h-31.1V560z"/>
+	<path class="st1" d="M1393.4,560c0,2.1-1,3.1-3.1,3.1h-24.2c-2.1,0-3.1-1-3.1-3.1V453.2c0-2.1,1-3.1,3.1-3.1h24.2
+		c2.1,0,3.1,1,3.1,3.1V560z M1407.1,411.1c0.4,0.6,0.7,1.2,0.7,1.8c0,0.9-0.6,1.7-1.8,2.4l-38.8,21.1c-0.4,0.3-1,0.4-1.8,0.4
+		c-1,0-1.8-0.4-2.4-1.3l-7.5-11.9c-0.4-0.7-0.7-1.3-0.7-1.8c0-0.6,0.5-1.4,1.6-2.4l35.5-26.7c0.6-0.4,1.3-0.7,2.2-0.7
+		c0.9,0,1.6,0.4,2.2,1.3L1407.1,411.1z"/>
+	<path class="st1" d="M1471,565.9c-11.2,0-21.2-2.5-29.9-7.5c-8.6-5.1-15.2-12.2-20-21.1c-4.7-9.1-7.1-19.4-7.1-30.8
+		c0-11.3,2.4-21.4,7.1-30.4c4.9-9.1,11.6-16.2,20.2-21.1c8.7-5.1,18.6-7.7,29.7-7.7c11.7,0,21.3,2.6,28.8,7.9
+		c7.5,5.3,13.3,12.4,17.3,21.4c0.1,0.3,0.2,0.7,0.2,1.3c0,1-0.7,1.9-2,2.6l-20,8.1c-0.9,0.3-1.4,0.4-1.6,0.4c-0.9,0-1.7-0.7-2.4-2
+		c-4.6-8.2-11.4-12.3-20.4-12.3c-7.8,0-14.2,2.9-19.1,8.8c-4.9,5.9-7.3,13.4-7.3,22.7c0,9.7,2.4,17.5,7.3,23.3
+		c4.9,5.9,11.2,8.8,19.1,8.8c9.8,0,17.2-4.3,22.2-12.8c0.9-1.8,2.2-2.3,4-1.5l19.7,8.1c1,0.4,1.7,1,2.1,1.5c0.3,0.4,0.3,1,0,1.8
+		c-4.1,9.1-10.2,16.4-18.2,22C1492.8,563.2,1482.8,565.9,1471,565.9z"/>
+	<path class="st1" d="M1566.4,560c0,2.1-1,3.1-3.1,3.1h-24.2c-2.1,0-3.1-1-3.1-3.1V453.2c0-2.1,1-3.1,3.1-3.1h24.2
+		c2.1,0,3.1,1,3.1,3.1V560z M1551.1,430.9c-5.6,0-10.2-1.6-13.8-4.8c-3.4-3.2-5.1-7.6-5.1-13c0-5.1,1.7-9.3,5.1-12.3
+		c3.5-3.2,8.1-4.8,13.8-4.8c5.6,0,10.1,1.6,13.5,4.8c3.4,3.1,5.1,7.3,5.1,12.6s-1.7,9.5-5.1,12.8
+		C1561.2,429.3,1556.7,430.9,1551.1,430.9z"/>
+	<path class="st1" d="M1644.3,565.9c-11.2,0-21.2-2.5-29.9-7.5c-8.7-5-15.5-12-20.2-20.9c-4.7-9.1-7.1-19.5-7.1-31.1
+		c0-11.2,2.4-21.2,7.1-30.2c4.9-9.1,11.7-16.2,20.4-21.4c8.7-5.1,18.6-7.7,29.7-7.7c11.2,0,21.1,2.5,29.7,7.5
+		c8.7,5,15.5,12,20.2,21.1c4.7,9,7.1,19.2,7.1,30.6c0,11.3-2.4,21.5-7.3,30.6c-4.7,9-11.5,16-20.2,21.1
+		C1665.2,563.4,1655.3,565.9,1644.3,565.9z M1644.3,538.4c8,0,14.3-2.9,19.1-8.6c4.9-5.7,7.3-13.4,7.3-23.1c0-9.5-2.4-17.3-7.3-23.1
+		c-4.9-5.9-11.2-8.8-19.1-8.8c-7.8,0-14.3,2.9-19.3,8.8c-4.9,5.7-7.3,13.3-7.3,22.7c0,9.7,2.4,17.5,7.3,23.3
+		C1630,535.5,1636.4,538.4,1644.3,538.4z"/>
+	<path class="st1" d="M1760,565.9c-21.4,0-36.6-7.9-45.5-23.8c-0.3-0.9-0.4-1.4-0.4-1.5c0-1,0.6-1.9,1.8-2.6l16-9
+		c0.7-0.4,1.3-0.7,1.8-0.7c0.9,0,1.7,0.6,2.4,1.8c5.9,7.9,14,11.9,24.2,11.9c5.5,0,9.6-1,12.4-2.9c3-1.9,4.4-4.5,4.4-7.7
+		c0-3.2-1.6-5.7-4.7-7.5c-3-1.9-8.1-3.7-15.5-5.5c-12.2-2.9-21.7-7-29.3-12.3c-7.5-5.4-11.3-13.4-11.3-23.8c0-6.6,1.8-12.6,5.5-17.8
+		c3.7-5.4,8.9-9.6,15.7-12.6c6.8-3.1,14.6-4.6,23.3-4.6c20.4,0,35,7.7,43.7,23.1c0.3,0.9,0.4,1.4,0.4,1.5c0,0.9-0.6,1.7-1.8,2.4
+		l-16,8.1c-0.9,0.3-1.5,0.4-1.8,0.4c-1,0-1.8-0.5-2.4-1.5c-4.9-7-12.1-10.6-21.5-10.6c-4.6,0-8.4,0.9-11.3,2.6
+		c-2.8,1.8-4.2,4-4.2,6.8c0,2.9,1.4,5.2,4.2,6.8c3,1.5,7.8,3,14.4,4.6c8.3,2.3,15.3,4.8,21.1,7.5s10.6,6.5,14.6,11.5
+		c4.1,4.8,6.2,11.2,6.2,18.9c0,7-1.9,13.4-5.8,18.9c-3.7,5.4-9.1,9.7-16.2,12.8C1777.7,564.4,1769.5,565.9,1760,565.9z"/>
+</g>
+</svg>
+  </div>
+  <a href="#calc-taxa" class="btn-primary">Calcular agora →</a>
+</header>
+
+<!-- ══════════════════════════════ 2. HERO ══════════════════════════════ -->
+<section class="hero">
+  <div class="hero-inner">
+    <h1>Você sabe quanto o turnover está custando pra sua empresa?</h1>
+    <p class="hero-sub">Segundo a Robert Half, substituir um colaborador pode custar até 8x o salário mensal. Calcule a taxa e o impacto real em reais — em menos de 2 minutos.</p>
+    <a href="#calc-taxa" class="btn-acqua">Quero calcular</a>
+    <p class="hero-credibility">Brasil lidera o ranking global de rotatividade — turnover cresceu 56% desde a pandemia (Robert Half + CAGED)</p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════ 3. PROPOSTA DE VALOR ══════════════════════════════ -->
+<section class="value-section">
+  <h2 class="section-title">O que você vai descobrir</h2>
+  <div class="cards-row">
+    <div class="value-card">
+      <div class="icon">📊</div>
+      <h3>Taxa de turnover</h3>
+      <p>Descubra se sua rotatividade está saudável com base em parâmetros de mercado</p>
+    </div>
+    <div class="value-card">
+      <div class="icon">💸</div>
+      <h3>Custo real em R$</h3>
+      <p>Veja o impacto financeiro por nível hierárquico, com metodologia SHRM</p>
+    </div>
+    <div class="value-card">
+      <div class="icon">🎯</div>
+      <h3>Onde agir</h3>
+      <p>Entenda se o problema está na retenção operacional, técnica ou executiva</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════ 4. SEÇÃO 1 — TAXA DE TURNOVER ══════════════════════════════ -->
+<section class="calc-section-1" id="calc-taxa">
+  <div class="calc-inner">
+    <h2 class="section-title">Calcule a taxa de turnover da sua empresa</h2>
+    <p class="calc-subtitle">Descubra se a rotatividade anual está dentro de um índice saudável — e o que ela indica sobre o ambiente organizacional.</p>
+
+    <div class="calc-grid-2">
+      <div class="calc-group">
+        <label for="t-total">Total de colaboradores ativos</label>
+        <input type="number" id="t-total" min="0" placeholder="Ex: 150" />
+      </div>
+      <div class="calc-group">
+        <label for="t-admissoes">Admissões no ano</label>
+        <input type="number" id="t-admissoes" min="0" placeholder="Ex: 12" />
+      </div>
+      <div class="calc-group">
+        <label for="t-demissoes">Demissões no ano</label>
+        <input type="number" id="t-demissoes" min="0" placeholder="Ex: 8" />
+      </div>
+
+    </div>
+
+    <button class="btn-calc" onclick="calcularTaxa()">Calcular taxa</button>
+
+    <!-- Resultado Seção 1 -->
+    <div class="result-1" id="result-1">
+      <div class="result-rate-wrapper">
+        <div class="result-rate-number" id="r1-taxa">0%</div>
+        <div>
+          <span class="rate-badge" id="r1-badge">—</span>
+        </div>
+        <p class="rate-text" id="r1-text"></p>
+      </div>
+      <p class="result-formula-small">
+        Metodologia: [(Admissões + Demissões) ÷ 2] ÷ Total de colaboradores × 100.
+        Referência: Acrescenta iFood Benefícios — Qual é o índice ideal de turnover?
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════ 5. SEÇÃO 2 — CUSTO FINANCEIRO ══════════════════════════════ -->
+<section class="calc-section-2" id="calc-custo">
+  <div class="calc-inner-2">
+    <h2 class="section-title">Quanto o turnover está custando para a sua empresa?</h2>
+    <p class="calc-subtitle">Informe o salário médio e o número de desligamentos por nível hierárquico no período analisado.</p>
+
+    <div class="level-cards-row">
+      <!-- Bloco 1 -->
+      <div class="level-card">
+        <div class="level-card-label">Operacional / Entrada</div>
+        <div class="level-card-sublabel">50% a 75% do salário anual (SHRM)</div>
+        <div class="calc-group">
+          <label for="c-sal-op">Salário médio (R$)</label>
+          <input type="number" id="c-sal-op" min="0" placeholder="Ex: 2.500" />
+        </div>
+        <div class="calc-group">
+          <label for="c-dem-op">Nº de desligamentos</label>
+          <input type="number" id="c-dem-op" min="0" placeholder="Ex: 5" />
+        </div>
+      </div>
+      <!-- Bloco 2 -->
+      <div class="level-card">
+        <div class="level-card-label">Técnico / Liderança intermediária</div>
+        <div class="level-card-sublabel">100% a 150% do salário anual (SHRM)</div>
+        <div class="calc-group">
+          <label for="c-sal-tec">Salário médio (R$)</label>
+          <input type="number" id="c-sal-tec" min="0" placeholder="Ex: 6.000" />
+        </div>
+        <div class="calc-group">
+          <label for="c-dem-tec">Nº de desligamentos</label>
+          <input type="number" id="c-dem-tec" min="0" placeholder="Ex: 3" />
+        </div>
+      </div>
+      <!-- Bloco 3 -->
+      <div class="level-card">
+        <div class="level-card-label">Executivo / Alta gestão</div>
+        <div class="level-card-sublabel">Acima de 200% do salário anual (SHRM)</div>
+        <div class="calc-group">
+          <label for="c-sal-exe">Salário médio (R$)</label>
+          <input type="number" id="c-sal-exe" min="0" placeholder="Ex: 15.000" />
+        </div>
+        <div class="calc-group">
+          <label for="c-dem-exe">Nº de desligamentos</label>
+          <input type="number" id="c-dem-exe" min="0" placeholder="Ex: 1" />
+        </div>
+      </div>
+    </div>
+
+    <button class="btn-calc" onclick="calcularCusto()">Calcular custo</button>
+
+    <!-- Resultado Seção 2 -->
+    <div class="result-2" id="result-2">
+      <div class="result-main-2">
+        <div class="result-value-2" id="r2-total">R$ 0</div>
+        <div class="result-label-2">é o custo estimado com desligamentos no período analisado</div>
+      </div>
+      <div class="result-breakdown" id="r2-breakdown"></div>
+      <div class="result-benchmark-2">
+        🎯 A Robert Half estima que substituir um colaborador pode custar até 8x o salário mensal. Empresas com benefícios competitivos reduzem o turnover em até 40%.
+      </div>
+      <p class="result-formula-small">
+        Cálculo baseado na metodologia SHRM (Society for Human Resource Management): custo de substituição = salário anual × multiplicador por nível (Operacional: 62,5% | Técnico/Liderança: 125% | Executivo: 200%). Referência complementar: Robert Half.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════ 6. BLOCO COMERCIAL ══════════════════════════════ -->
+<section class="commercial-section">
+  <div class="commercial-inner">
+    <h2>Benefício é estratégia de retenção</h2>
+    <p class="commercial-sub">O iFood Benefícios ajuda sua empresa a reter quem faz acontecer — com taxa zero, tecnologia que economiza 110 horas por ano do RH e um vale que rende até 40% mais.</p>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feat-icon">⚡</div>
+        <p>Taxa zero</p>
+      </div>
+      <div class="feature-card">
+        <div class="feat-icon">🕐</div>
+        <p>110h economizadas/ano</p>
+      </div>
+      <div class="feature-card">
+        <div class="feat-icon">💳</div>
+        <p>Vale que rende 40% mais</p>
+      </div>
+      <div class="feature-card">
+        <div class="feat-icon">📍</div>
+        <p>+11 milhões de estabelecimentos</p>
+      </div>
+    </div>
+    <a href="https://beneficios.ifood.com.br/?utm_source=lp&utm_medium=banner-pagina&utm_campaign=iFB_Trafego_Brasil_Content_Calculadora_Turnover&utm_content=content-lp-calculadora-turnover" target="_blank" rel="noopener noreferrer" class="btn-acqua">Quero contratar</a>
+  </div>
+</section>
+
+<!-- ══════════════════════════════ 7. FOOTER ══════════════════════════════ -->
+<footer class="footer">
+  <div class="footer-logo">
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 27.9.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 1920 1080" style="enable-background:new 0 0 1920 1080;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill-rule:evenodd;clip-rule:evenodd;fill:#FDF8F1;}
+	.st1{fill:#FDF8F1;}
+</style>
+<g>
+	<path class="st0" d="M139.2,434.1h40.1l6.5-32.7h-40.1L139.2,434.1z M112.9,565h40.4l22.4-113.3h-40.1L112.9,565z M209.6,596.9
+		h-40.4l24.4-122.4h-13.8l4.4-22.7h14.1c8-30.7,30.3-50.4,62.7-50.4c9.7,0,19.7,1.8,28.6,4.7l-4.7,23.9c-8.2-3.8-16.8-4.7-25.9-4.7
+		c-15,0-18.3,11.2-20,20.9l-0.9,5.3h14.1l-4.7,22.7H234L209.6,596.9z M296.7,567.7c47.7,0,80.7-44.2,80.7-80.5
+		c0-26.3-24.4-37.8-47.7-37.8c-52.1,0-80.7,47.8-80.7,80.5C249,555.9,273.8,567.7,296.7,567.7z M504.7,487.2
+		c0,36.3-33,80.5-80.7,80.5c-23,0-47.7-11.8-47.7-37.8c0-32.7,28.6-80.5,80.7-80.5C480.3,449.4,504.7,460.9,504.7,487.2z M569.8,565
+		h40.1l33.3-163.7h-40.4l-10.6,50.4c-5.3-1.2-10.6-1.8-16.2-1.8c-39.5,0-75.4,51.3-75.4,87.9c0,15,9.7,29.8,25.9,29.8
+		c23.3,0,39.2-11.5,46-22.4h2.4L569.8,565z M334.2,686.3c42.7,2.7,82.2-10.3,111.6-36l12.1,34.2l17.4-87.6l-81-0.3l27.4,20.9
+		c-24.2,23.9-68.6,40.7-104.9,36.6c-37.1-4.1-66.9-29.5-78.9-57.2h-2.7C242.8,640.3,280.3,683,334.2,686.3z"/>
+	<path class="st1" d="M755.2,563.1c-2.1,0-3.1-1-3.1-3.1V407.1c0-2.1,1-3.1,3.1-3.1h58.3c17.7,0,31.4,3.8,40.8,11.5
+		c9.5,7.6,14.2,18.1,14.2,31.3c0,7.5-2.1,14.1-6.4,19.8c-4.3,5.7-10.2,10.1-17.7,13.2c9.5,2.8,16.8,7.6,22,14.3
+		c5.2,6.8,7.8,14.8,7.8,24c0,9.1-2.3,17-6.9,23.8c-4.6,6.8-11.3,12-20.2,15.6c-8.7,3.7-19.3,5.5-31.7,5.5H755.2z M813.6,469
+		c7,0,12.4-1.8,16.4-5.5c4.1-3.7,6.2-8.2,6.2-13.7c0-5.6-1.9-10-5.8-13.2c-3.8-3.2-9.5-4.8-16.9-4.8h-29.7V469H813.6z M815.3,535.3
+		c8.4,0,14.8-1.7,19.1-5.1c4.4-3.5,6.7-8.3,6.7-14.3c0-6-2.2-10.7-6.7-14.1c-4.3-3.5-10.6-5.3-19.1-5.3h-31.5v38.8H815.3z"/>
+	<path class="st1" d="M945.5,565.9c-11.2,0-21.2-2.5-29.9-7.5c-8.7-5-15.6-12-20.6-20.9c-4.9-9.1-7.3-19.5-7.3-31.3
+		c0-11.2,2.3-21.2,6.9-30.2c4.7-9,11.3-16,19.7-21.1c8.6-5.1,18.3-7.7,29.3-7.7c10.4,0,19.4,2.3,27.1,7c7.8,4.7,13.9,11.2,18.2,19.4
+		c4.3,8.2,6.4,17.6,6.4,28.2c0,1.9-0.1,4.9-0.4,9c-0.2,1.9-1.3,2.9-3.3,2.9H918c1,8.4,4.1,14.9,9.3,19.6c5.2,4.7,11.6,7,19.3,7
+		c9.8,0,17.3-3.9,22.6-11.7c1.2-1.6,2.6-2,4.2-1.1l18.2,8.6c1.9,1,2.6,2.1,2,3.3c-4.1,8.1-10.3,14.5-18.4,19.4
+		C967.1,563.6,957.2,565.9,945.5,565.9z M966.2,492.8c-0.7-6.9-3.2-12.2-7.3-15.9c-4.1-3.8-9.3-5.7-15.5-5.7c-6.2,0-11.5,2-16,5.9
+		c-4.3,3.8-7.2,9-8.9,15.6H966.2z"/>
+	<path class="st1" d="M1045.8,560c0,2.1-1,3.1-3.1,3.1h-24c-2.1,0-3.1-1-3.1-3.1V453.2c0-2.1,1-3.1,3.1-3.1h22.8
+		c2.1,0,3.1,1,3.1,3.1v11.9c5.8-6.2,11.7-10.6,17.7-13.4c6.2-2.9,12.9-4.4,20-4.4c12.9,0,22.8,4.1,29.7,12.3
+		c7.1,8.1,10.6,19.2,10.6,33.3V560c0,2.1-1,3.1-3.1,3.1h-24c-2.1,0-3.1-1-3.1-3.1v-64.5c0-6.5-1.5-11.5-4.4-15.2
+		c-3-3.7-7.3-5.5-13.1-5.5c-4.9,0-9.8,1.3-14.9,4c-4.9,2.6-9.7,6.6-14.4,11.9V560z"/>
+	<path class="st1" d="M1200.9,565.9c-11.2,0-21.2-2.5-29.9-7.5c-8.7-5-15.6-12-20.6-20.9c-4.9-9.1-7.3-19.5-7.3-31.3
+		c0-11.2,2.3-21.2,6.9-30.2c4.7-9,11.3-16,19.7-21.1c8.6-5.1,18.3-7.7,29.3-7.7c10.4,0,19.4,2.3,27.1,7c7.8,4.7,13.9,11.2,18.2,19.4
+		c4.3,8.2,6.4,17.6,6.4,28.2c0,1.9-0.1,4.9-0.4,9c-0.1,1.9-1.3,2.9-3.3,2.9h-73.4c1,8.4,4.1,14.9,9.3,19.6c5.2,4.7,11.6,7,19.3,7
+		c9.8,0,17.3-3.9,22.6-11.7c1.2-1.6,2.6-2,4.2-1.1l18.2,8.6c1.9,1,2.6,2.1,2,3.3c-4.1,8.1-10.3,14.5-18.4,19.4
+		C1222.4,563.6,1212.5,565.9,1200.9,565.9z M1221.5,492.8c-0.7-6.9-3.2-12.2-7.3-15.9c-4.1-3.8-9.3-5.7-15.5-5.7s-11.5,2-16,5.9
+		c-4.3,3.8-7.2,9-8.9,15.6H1221.5z"/>
+	<path class="st1" d="M1311.5,560c0,2.1-1,3.1-3.1,3.1h-24c-2.1,0-3.1-1-3.1-3.1v-83h-19.7c-2.1,0-3.1-1-3.1-3.1v-20.7
+		c0-2.1,1-3.1,3.1-3.1h19.7v-3.3c0-12.9,4.5-23.7,13.5-32.4c9-8.8,23.6-14.5,43.7-17l3.5-0.2c0.9,0,1.5,0.2,1.8,0.7
+		c0.4,0.4,0.7,1.2,0.9,2.4l2,20.5v0.4c0,1.6-1,2.6-2.9,2.9c-8.9,1-15.7,2.6-20.4,4.6c-4.7,1.9-7.9,4.3-9.5,7.3
+		c-1.6,2.9-2.4,6.7-2.4,11.2v2.9h31.1c2.1,0,3.1,1,3.1,3.1v20.7c0,2.1-1,3.1-3.1,3.1h-31.1V560z"/>
+	<path class="st1" d="M1393.4,560c0,2.1-1,3.1-3.1,3.1h-24.2c-2.1,0-3.1-1-3.1-3.1V453.2c0-2.1,1-3.1,3.1-3.1h24.2
+		c2.1,0,3.1,1,3.1,3.1V560z M1407.1,411.1c0.4,0.6,0.7,1.2,0.7,1.8c0,0.9-0.6,1.7-1.8,2.4l-38.8,21.1c-0.4,0.3-1,0.4-1.8,0.4
+		c-1,0-1.8-0.4-2.4-1.3l-7.5-11.9c-0.4-0.7-0.7-1.3-0.7-1.8c0-0.6,0.5-1.4,1.6-2.4l35.5-26.7c0.6-0.4,1.3-0.7,2.2-0.7
+		c0.9,0,1.6,0.4,2.2,1.3L1407.1,411.1z"/>
+	<path class="st1" d="M1471,565.9c-11.2,0-21.2-2.5-29.9-7.5c-8.6-5.1-15.2-12.2-20-21.1c-4.7-9.1-7.1-19.4-7.1-30.8
+		c0-11.3,2.4-21.4,7.1-30.4c4.9-9.1,11.6-16.2,20.2-21.1c8.7-5.1,18.6-7.7,29.7-7.7c11.7,0,21.3,2.6,28.8,7.9
+		c7.5,5.3,13.3,12.4,17.3,21.4c0.1,0.3,0.2,0.7,0.2,1.3c0,1-0.7,1.9-2,2.6l-20,8.1c-0.9,0.3-1.4,0.4-1.6,0.4c-0.9,0-1.7-0.7-2.4-2
+		c-4.6-8.2-11.4-12.3-20.4-12.3c-7.8,0-14.2,2.9-19.1,8.8c-4.9,5.9-7.3,13.4-7.3,22.7c0,9.7,2.4,17.5,7.3,23.3
+		c4.9,5.9,11.2,8.8,19.1,8.8c9.8,0,17.2-4.3,22.2-12.8c0.9-1.8,2.2-2.3,4-1.5l19.7,8.1c1,0.4,1.7,1,2.1,1.5c0.3,0.4,0.3,1,0,1.8
+		c-4.1,9.1-10.2,16.4-18.2,22C1492.8,563.2,1482.8,565.9,1471,565.9z"/>
+	<path class="st1" d="M1566.4,560c0,2.1-1,3.1-3.1,3.1h-24.2c-2.1,0-3.1-1-3.1-3.1V453.2c0-2.1,1-3.1,3.1-3.1h24.2
+		c2.1,0,3.1,1,3.1,3.1V560z M1551.1,430.9c-5.6,0-10.2-1.6-13.8-4.8c-3.4-3.2-5.1-7.6-5.1-13c0-5.1,1.7-9.3,5.1-12.3
+		c3.5-3.2,8.1-4.8,13.8-4.8c5.6,0,10.1,1.6,13.5,4.8c3.4,3.1,5.1,7.3,5.1,12.6s-1.7,9.5-5.1,12.8
+		C1561.2,429.3,1556.7,430.9,1551.1,430.9z"/>
+	<path class="st1" d="M1644.3,565.9c-11.2,0-21.2-2.5-29.9-7.5c-8.7-5-15.5-12-20.2-20.9c-4.7-9.1-7.1-19.5-7.1-31.1
+		c0-11.2,2.4-21.2,7.1-30.2c4.9-9.1,11.7-16.2,20.4-21.4c8.7-5.1,18.6-7.7,29.7-7.7c11.2,0,21.1,2.5,29.7,7.5
+		c8.7,5,15.5,12,20.2,21.1c4.7,9,7.1,19.2,7.1,30.6c0,11.3-2.4,21.5-7.3,30.6c-4.7,9-11.5,16-20.2,21.1
+		C1665.2,563.4,1655.3,565.9,1644.3,565.9z M1644.3,538.4c8,0,14.3-2.9,19.1-8.6c4.9-5.7,7.3-13.4,7.3-23.1c0-9.5-2.4-17.3-7.3-23.1
+		c-4.9-5.9-11.2-8.8-19.1-8.8c-7.8,0-14.3,2.9-19.3,8.8c-4.9,5.7-7.3,13.3-7.3,22.7c0,9.7,2.4,17.5,7.3,23.3
+		C1630,535.5,1636.4,538.4,1644.3,538.4z"/>
+	<path class="st1" d="M1760,565.9c-21.4,0-36.6-7.9-45.5-23.8c-0.3-0.9-0.4-1.4-0.4-1.5c0-1,0.6-1.9,1.8-2.6l16-9
+		c0.7-0.4,1.3-0.7,1.8-0.7c0.9,0,1.7,0.6,2.4,1.8c5.9,7.9,14,11.9,24.2,11.9c5.5,0,9.6-1,12.4-2.9c3-1.9,4.4-4.5,4.4-7.7
+		c0-3.2-1.6-5.7-4.7-7.5c-3-1.9-8.1-3.7-15.5-5.5c-12.2-2.9-21.7-7-29.3-12.3c-7.5-5.4-11.3-13.4-11.3-23.8c0-6.6,1.8-12.6,5.5-17.8
+		c3.7-5.4,8.9-9.6,15.7-12.6c6.8-3.1,14.6-4.6,23.3-4.6c20.4,0,35,7.7,43.7,23.1c0.3,0.9,0.4,1.4,0.4,1.5c0,0.9-0.6,1.7-1.8,2.4
+		l-16,8.1c-0.9,0.3-1.5,0.4-1.8,0.4c-1,0-1.8-0.5-2.4-1.5c-4.9-7-12.1-10.6-21.5-10.6c-4.6,0-8.4,0.9-11.3,2.6
+		c-2.8,1.8-4.2,4-4.2,6.8c0,2.9,1.4,5.2,4.2,6.8c3,1.5,7.8,3,14.4,4.6c8.3,2.3,15.3,4.8,21.1,7.5s10.6,6.5,14.6,11.5
+		c4.1,4.8,6.2,11.2,6.2,18.9c0,7-1.9,13.4-5.8,18.9c-3.7,5.4-9.1,9.7-16.2,12.8C1777.7,564.4,1769.5,565.9,1760,565.9z"/>
+</g>
+</svg>
+  </div>
+  
+</footer>
+
+<script>
+  // ── FORMATAÇÃO ──
+  function formatBRL(value) {
+    return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', minimumFractionDigits: 0, maximumFractionDigits: 0 });
+  }
+  function formatPct(value) {
+    return value.toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + '%';
+  }
+
+  // ── SEÇÃO 1: TAXA DE TURNOVER ──
+  function calcularTaxa() {
+    var total    = parseFloat(document.getElementById('t-total').value) || 0;
+    var admis    = parseFloat(document.getElementById('t-admissoes').value) || 0;
+    var demis    = parseFloat(document.getElementById('t-demissoes').value) || 0;
+
+    if (total <= 0) {
+      alert('Informe o total de colaboradores ativos.');
+      return;
+    }
+    if (admis < 0 || demis < 0) {
+      alert('Admissões e demissões não podem ser negativos.');
+      return;
+    }
+
+    var taxa = ((admis + demis) / 2) / total * 100;
+
+    // Classificação
+    var classe, label, texto;
+    if (taxa <= 5) {
+      classe = 'muito-baixo';
+      label  = 'Muito baixo';
+      texto  = 'Sua taxa está abaixo do mercado. Pode indicar boa retenção — ou baixa movimentação de talentos.';
+    } else if (taxa <= 10) {
+      classe = 'baixo';
+      label  = 'Baixo — índice saudável ✓';
+      texto  = 'Parabéns! Sua taxa está dentro do índice considerado saudável pela maioria dos especialistas em RH.';
+    } else if (taxa <= 20) {
+      classe = 'moderado';
+      label  = 'Moderado — atenção recomendada';
+      texto  = 'Quando a rotatividade ultrapassa 10% ao ano em setores sem grande renovação de pessoal, é recomendável investigar as causas.';
+    } else if (taxa <= 30) {
+      classe = 'alto';
+      label  = 'Alto — investigar causas';
+      texto  = 'Sua taxa indica possíveis problemas na gestão ou no ambiente organizacional. Ação imediata é recomendada.';
+    } else {
+      classe = 'muito-alto';
+      label  = 'Muito alto — sinal de alerta';
+      texto  = 'Sinal crítico de alerta. Taxas acima de 30% representam risco operacional e financeiro significativo.';
+    }
+
+    document.getElementById('r1-taxa').textContent = formatPct(taxa);
+
+    var badge = document.getElementById('r1-badge');
+    badge.textContent = label;
+    badge.className = 'rate-badge ' + classe;
+
+    document.getElementById('r1-text').textContent = texto;
+
+    var res = document.getElementById('result-1');
+    res.style.display = 'block';
+    setTimeout(function() {
+      res.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }, 100);
+  }
+
+  // ── SEÇÃO 2: CUSTO FINANCEIRO ──
+  function calcularCusto() {
+    var salOp  = parseFloat(document.getElementById('c-sal-op').value)  || 0;
+    var demOp  = parseFloat(document.getElementById('c-dem-op').value)  || 0;
+    var salTec = parseFloat(document.getElementById('c-sal-tec').value) || 0;
+    var demTec = parseFloat(document.getElementById('c-dem-tec').value) || 0;
+    var salExe = parseFloat(document.getElementById('c-sal-exe').value) || 0;
+    var demExe = parseFloat(document.getElementById('c-dem-exe').value) || 0;
+
+    var custoOp  = salOp  * 12 * 0.625 * demOp;
+    var custoTec = salTec * 12 * 1.25  * demTec;
+    var custoExe = salExe * 12 * 2.0   * demExe;
+    var total    = custoOp + custoTec + custoExe;
+
+    if (total <= 0) {
+      alert('Preencha ao menos um bloco com salário e número de desligamentos.');
+      return;
+    }
+
+    document.getElementById('r2-total').textContent = formatBRL(total);
+
+    // Cards por nível (só mostra os com valor > 0)
+    var breakdown = document.getElementById('r2-breakdown');
+    breakdown.innerHTML = '';
+    var niveis = [
+      { label: 'Operacional', valor: custoOp },
+      { label: 'Técnico/Liderança', valor: custoTec },
+      { label: 'Executivo', valor: custoExe }
+    ];
+    niveis.forEach(function(n) {
+      if (n.valor > 0) {
+        var card = document.createElement('div');
+        card.className = 'result-breakdown-card';
+        card.innerHTML = n.label + '<span>' + formatBRL(n.valor) + '</span>';
+        breakdown.appendChild(card);
+      }
+    });
+
+    var res = document.getElementById('result-2');
+    res.style.display = 'block';
+    setTimeout(function() {
+      res.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }, 100);
+  }
+</script>
+
+</body>
+</html>
